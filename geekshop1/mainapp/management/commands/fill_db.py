@@ -19,8 +19,6 @@ class Command(BaseCommand):
             new_category = ProductCategory(**cat)
             new_category.save()
 
-        # <form>
-        # </form>
         products = load_from_json('mainapp/fixtures/products.json')
 
         Product.objects.all().delete()
