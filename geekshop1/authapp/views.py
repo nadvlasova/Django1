@@ -19,7 +19,7 @@ def login(request):
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
         else:
-            print(form.error_messages)
+            print(form.errors)
     else:
         form = UserLoginForm()
     context = {
@@ -36,7 +36,7 @@ def register(request):
             form.save()
             return HttpResponseRedirect(reverse('authapp:login'))
         else:
-            print(form.error_messages)
+            print(form.errors)
     else:
         form = UserRegisterForm()
     context = {
