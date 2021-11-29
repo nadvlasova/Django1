@@ -4,8 +4,7 @@ from django import forms
 
 from authapp.models import User
 
-
-# from authapp.validator import validate_name
+from authapp.validator import validate_name
 
 
 class UserLoginForm(AuthenticationForm):
@@ -20,13 +19,6 @@ class UserLoginForm(AuthenticationForm):
         self.fields['password'].widget.attrs['placeholder'] = 'Введите пароль'
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
-
-    # Валидатор на отсутствие цифр в имени пользователя
-    # def clean_username(self):
-    #     data = self.cleaned_data['username']
-    #     if not data.isalpha():
-    #         raise ValidationError('Имя пользователя не может содержать цифры')
-    #     return data
 
 
 class UserRegisterForm(UserCreationForm):
@@ -47,6 +39,7 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserProfileForm(UserChangeForm):
+    first_name = forms.CharField(widget=forms.TextInput(), validators=[validate_name])
     image = forms.ImageField(widget=forms.FileInput(), required=False)
     age = forms.IntegerField(widget=forms.NumberInput(), required=False)
 
