@@ -8,6 +8,7 @@ from django.views.generic import ListView, UpdateView, DeleteView, CreateView, D
 
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, CategoryCreateFormAdmin, ProductCreateFormAdmin
 from authapp.models import User
+from mainapp.mixin import CustomDispatchMixin, BaseClassContextMixin
 from mainapp.models import Product, ProductCategory
 
 
@@ -84,58 +85,43 @@ class UserDeleteView(DeleteView):
         return super(UserDeleteView, self).dispatch(request, *args, **kwargs)
 
 
+class CategoryListView(ListView, BaseClassContextMixin, CustomDispatchMixin):
+    model = ProductCategory
+    template_name = 'admins/admin-category-read.html'
+    title = 'Админка | Список категорий'
 
 
-
-@user_passes_test(lambda u: u.is_superuser)
-def admin_categories(request):
-    context = {
-        'categories': ProductCategory.objects.all()
-    }
-    return render(request, 'admins/admin-category-read.html', context)
-
-
-@user_passes_test(lambda u: u.is_superuser)
-def admin_categories_create(request):
-    if request.method == 'POST':
-        form = CategoryCreateFormAdmin(data=request.POST)
-        if form.is_valid():
-            form.save()
-        return HttpResponseRedirect(reverse('admins:admin_category'))
-    else:
-        form = CategoryCreateFormAdmin()
-        context = {
-            'title': 'Geekshop - Админ | Категории создание ',
-            'form': form
-        }
-        return render(request, 'admins/admin-category-create.html', context)
+class CategoryCreateView(CreateView, BaseClassContextMixin, CustomDispatchMixin):
+    model = ProductCategory
+    template_name = 'admins/admin-category-create.html'
+    form_class = CategoryCreateFormAdmin
+    success_url = reverse_lazy('admins:admin_category')
+    title = 'Админка | Создание категорий'
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_categories_update(request, pk):
-    category_select = ProductCategory.objects.get(pk=pk)
-    if request.method == 'POST':
-        form = CategoryCreateFormAdmin(data=request.POST, instance=category_select)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('admins:admin_category'))
-    else:
-        form = CategoryCreateFormAdmin(instance=category_select)
-    context = {
-        'title': 'Geekshop - Админ | Обновление',
-        'form': form,
-        'category_select': category_select
-    }
-
-    return render(request, 'admins/admin-category-update-delete.html', context)
+class CategoryUpdateView(UpdateView, BaseClassContextMixin, CustomDispatchMixin):
+    model = ProductCategory
+    template_name = 'admins/admin-category-update-delete.html'
+    form_class = CategoryCreateFormAdmin
+    success_url = reverse_lazy('admins:admin_category')
+    title = 'Админка | Обновление категорий'
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_categories_delete(request, pk):
-    if request.method == 'POST':
-        category = ProductCategory.objects.get(pk=pk)
-        category.delete()
-    return HttpResponseRedirect(reverse('admins:admin_category'))
+class CategoryDeleteView(DeleteView, BaseClassContextMixin, CustomDispatchMixin):
+    model = ProductCategory
+    template_name = 'admins/admin-category-update-delete.html'
+    form_class = CategoryCreateFormAdmin
+    success_url = reverse_lazy('admins:admin_category')
+    title = 'Админка | Удаление категорий'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.is_active:
+            self.object.is_active = False
+        else:
+            self.object.is_active = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @user_passes_test(lambda u: u.is_superuser)
