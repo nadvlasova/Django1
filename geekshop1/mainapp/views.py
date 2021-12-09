@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 
-import json
 import os
 
 from django.views.generic import DetailView
@@ -50,8 +49,9 @@ class ProductDetail(DetailView):
     template_name = 'mainapp/detail.html'
 
     # Добавление списка категорий для вывода сайдбара с категориями на странице каталога
-    def get_context_data(self, category_id=None, *args, **kwargs):
-        context = super(ProductDetail, self).get_context_data(**kwargs)
-        product = self.get_object()
-        context['product'] = product
-        return context
+
+    # def get_context_data(self, category_id=None, *args, **kwargs):
+    #     context = super(ProductDetail, self).get_context_data(**kwargs)
+    #     product = self.get_object()
+    #     context['product'] = product
+    #     return context
