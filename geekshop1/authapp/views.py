@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, UpdateView
 
-from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from authapp.forms import UserLoginForm, UserRegisterForm, UserProfilerForm
 from authapp.models import User
 from baskets.models import Basket
 
@@ -42,7 +42,7 @@ class RegisterListView(FormView, BaseClassContextMixin):
 
 class ProfileFormView(UpdateView, BaseClassContextMixin, UserDispatchMixin):
     template_name = 'authapp/profile.html'
-    form_class = UserProfileForm
+    form_class = UserProfilerForm
     success_url = reverse_lazy('authapp:profile')
     # success_message = 'OK'
     title = 'GeekShop - Профиль'
