@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,6 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-x-e%#0#is+7^6#pbj%%e546er0p6qzt-ielp23q2xe$#!y%y*7'
+
+from dotenv import load_dotenv
+load_dotenv(BASE_DIR / '.env')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,11 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp',
+    'authapp',
+    'baskets',
+    'admins',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -62,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
+                'mainapp.context_processors.basket',
             ],
         },
     },
@@ -102,6 +112,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+ugettext = lambda s: s
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
+LANGUAGES = (
+    ('en', ugettext('English')),
+    ('ru', ugettext('Russia')),
+)
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -116,7 +136,28 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'authapp.User'
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'
+
+DOMAIN_NAME = 'http://localhost:8000'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
+
+# вариант №1 - отправка email-ов в файл
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/emails'
+
+# вариант №2
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
