@@ -19,3 +19,18 @@ class User(AbstractUser):
             return False
         return True
 
+class UserProfile(models.Model):
+
+    MALE = 'M'
+    FEMALE = 'W'
+
+    GENDER_CHOICES = (
+        (MALE, 'М'),
+        (FEMALE, 'Ж'),
+    )
+
+    user = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
+    about = models.TextField(verbose_name='о себе', blank=True, null=True)
+    gender = models.CharField(verbose_name='пол', choices=GENDER_CHOICES, blank=True, max_length=2)
+
+
