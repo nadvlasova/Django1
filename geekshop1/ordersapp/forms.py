@@ -1,29 +1,27 @@
-import hashlib
-import random
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
-from django.core.exceptions import ValidationError
 from django import forms
 
-from authapp.models import User, UserProfile
+from ordersapp.models import Order, OrderItem
 
-from authapp.validator import validate_name
 
-class UserProfilerForm(UserChangeForm):
-    first_name = forms.CharField(widget=forms.TextInput(), validators=[validate_name])
-    image = forms.ImageField(widget=forms.FileInput(), required=False)
-    age = forms.IntegerField(widget=forms.NumberInput(), required=False)
-
+class OrderForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'image', 'age')
+        model = Order
+        exclude = ('user',)
 
     def __init__(self, *args, **kwargs):
-        super(UserProfilerForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs['readonly'] = True
-        self.fields['email'].widget.attrs['readonly'] = True
-
+        super(OrderForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-4'
-        self.fields['image'].widget.attrs['class'] = 'custom-file-input'
+            field.widget.attrs['class'] = 'form-control'
 
+
+class OrderItemsForm(forms.ModelForm):
+    price = forms.CharField(label='цена', required=False)
+
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(OrderItemsForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
