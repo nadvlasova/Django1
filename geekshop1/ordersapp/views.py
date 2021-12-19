@@ -3,9 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
+from ordersapp.models import Order
+
 
 class OrderList(ListView):
-    pass
+    model = Order
 
 
 class OrderCreate(CreateView):
