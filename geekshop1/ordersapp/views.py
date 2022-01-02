@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 from baskets.models import Basket
 from mainapp.mixin import BaseClassContextMixin
@@ -37,7 +37,7 @@ class OrderCreate(CreateView, BaseClassContextMixin):
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
-            basket_item = Basket.objects.filter(user=self.request.user)
+            basket_item = Basket.objects.filter(user=self.request.user).select_related()
             if basket_item:
                 OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=basket_item.count())
                 formset = OrderFormSet()
@@ -119,6 +119,7 @@ def order_forming_complete(request, pk):
     order.save()
     return HttpResponseRedirect(reverse('orders:list'))
 
+
 def get_product_price(request, pk):
     if request.is_ajax():
         product = Product.objects.get(pk=pk)
@@ -143,5 +144,3 @@ def product_quantity_update_save(sender, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
     instance.product.quantity += instance.quantity
     instance.product.save()
-
-
