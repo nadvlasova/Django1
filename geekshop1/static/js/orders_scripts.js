@@ -5,8 +5,6 @@ window.onload = function () {
     let quantity_arr = []
     let price_arr = []
     let total_forms = parseInt($('input[name=orderitems-TOTAL_FORMS]').val())
-    // console.log(total_forms)
-
 
     let order_total_quantity = parseInt($('.order_total_quantity').text()) || 0;
     let order_total_cost = parseInt($('.order_total_cost').text().replace(',', '.')) || 0;
