@@ -19,6 +19,7 @@
                         <a href="{% url 'mainapp:category' category.id %}"
                            class="list-group-item">{{ category.name }}</a>
                     {% endfor %}
+                    <a class="list-group-item" href="{% url 'mainapp:products' %}">Все категории.</a>
                 </div>
 
             </div>

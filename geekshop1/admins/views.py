@@ -73,8 +73,9 @@ class CategoryDeleteView(DeleteView, BaseClassContextMixin, CustomDispatchMixin)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False if self.object.is_active else True
-        self.object.save()
+        # self.object.is_active = False if self.object.is_active else True
+        # self.object.save()
+        self.object.delete()
         return HttpResponseRedirect(self.get_success_url())
 
 

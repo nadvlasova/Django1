@@ -37,7 +37,7 @@ class UserAdminProfileForm(UserProfilerForm):
 class CategoryUpdateFormAdmin(forms.ModelForm):
     # name = forms.CharField(widget=forms.TextInput())
     # description = forms.CharField(widget=forms.TextInput(), required=False)
-    # # is_active = forms.BooleanField(widget=forms.CheckboxInput())
+    # is_active = forms.BooleanField(widget=forms.CheckboxInput())
 
     class Meta:
         model = ProductCategory
