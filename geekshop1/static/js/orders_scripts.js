@@ -136,8 +136,6 @@ window.onload = function () {
 
     })
 
-}
-window.onload = function () {
     $('.basket_list').on('click', 'input[type="number"]', function () {
         let t_href = event.target
         $.ajax(
@@ -157,7 +155,7 @@ window.onload = function () {
         let t_href = event.target.value
         $.ajax(
             {
-                url: "/baskets/add/" + t_href + "/" ,
+                url: "/baskets/add/" + t_href + "/",
                 success: function (data) {
                     $('.card_add_basket').html(data.result)
                     alert('Товар добавлен в корзину!')
