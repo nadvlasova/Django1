@@ -60,7 +60,7 @@ def index(request):
     return render(request, 'mainapp/index.html', context)
 
 
-@cache_page (3600)
+# @cache_page (3600)
 def products(request, id_category=None, page=1):
     context = {
         'title': 'Geekshop | Каталог',
