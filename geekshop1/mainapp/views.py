@@ -1,6 +1,9 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 
+from django.conf import settings
+from django.core.cache import cache
+
 import json
 import os
 
@@ -9,6 +12,18 @@ from django.views.generic import DetailView
 from mainapp.models import Product, ProductCategory
 
 MODULE_DIR = os.path.dirname(__file__)
+
+
+def get_link_category():
+    if settings.LOW_CACHE:
+        key = 'link_category'
+        link_category = cache.get(key)
+        if link_category is None:
+            link_category = ProductCategory.objects.all()
+            cache.set(key, link_category)
+        return link_category
+    else:
+        return ProductCategory.objects.all()
 
 
 # Create your views here.
@@ -40,7 +55,8 @@ def products(request, id_category=None, page=1):
         products_paginator = paginator.page(paginator.num_pages)
 
     context['products'] = products_paginator
-    context['categories'] = ProductCategory.objects.all()
+    # context['categories'] = ProductCategory.objects.all()
+    context['categories'] = get_link_category()
     return render(request, 'mainapp/products.html', context)
 
 
