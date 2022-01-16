@@ -7,7 +7,7 @@ from django.core.cache import cache
 import json
 import os
 
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, never_cache
 from django.views.generic import DetailView
 
 from mainapp.models import Product, ProductCategory
@@ -61,6 +61,7 @@ def index(request):
 
 
 # @cache_page (3600)
+@never_cache
 def products(request, id_category=None, page=1):
     context = {
         'title': 'Geekshop | Каталог',
