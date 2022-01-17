@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0JTQu9GPINCw0LrRgtC40LLQsNGG0LjQuCDRg9GH0LXRgtC90L7QuSDQt9Cw0L8=?=
+ =?utf-8?b?0LjRgdC4IHRlc3QxINC/0YDQvtC50LTQuNGC0LUg0L/QviDRgdGB0YvQu9C60LU=?=
+From: django@mail.ru
+To: test1@mail.com
+Date: Tue, 14 Dec 2021 04:37:11 -0000
+Message-ID: <163945663193.19046.14077766837674536809@nadezhda-GL552VW>
+
+Для подтверждения учетной записи test1 на портале 
+ http://localhost:8000/users/verify/test1@mail.com/570e4a43f89d759516e3fb4d3c2d76f5e04d3ca1/
+-------------------------------------------------------------------------------
