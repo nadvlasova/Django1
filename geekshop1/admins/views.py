@@ -81,16 +81,22 @@ class CategoryDeleteView(DeleteView, BaseClassContextMixin, CustomDispatchMixin)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        # self.object.is_active = False if self.object.is_active else True
-        self.object.product_set.update(is_active=False)
-        self.object.is_active = False
+        self.object.is_active = False if self.object.is_active else True
         self.object.save()
-        # self.object.delete()
         return HttpResponseRedirect(self.get_success_url())
 
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
-    def dispatch(self, request, *args, **kwargs):
-        return super(CategoryDeleteView, self).dispatch(request, *args, **kwargs)
+    # def delete(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     self.object.is_active = False if self.object.is_active else True
+    #     self.object.product_set.update(is_active=False)
+    #     self.object.is_active = False
+    #     self.object.save()
+    #     # self.object.delete()
+    #     return HttpResponseRedirect(self.get_success_url())
+    #
+    # @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super(CategoryDeleteView, self).dispatch(request, *args, **kwargs)
 
 
 class CategoryUpdateView(UpdateView, BaseClassContextMixin, CustomDispatchMixin):

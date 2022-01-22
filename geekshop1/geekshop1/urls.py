@@ -33,18 +33,13 @@ urlpatterns = [
     path('admins/', include('admins.urls', namespace='admins')),
     path('orders/', include('ordersapp.urls', namespace='orders')),
 
-
-
     # url(r'^i18n/', include('django.conf.urls.i18n')),
     path('i18n/', include('django.conf.urls.i18n')),
 
-    path('', include('social_django.urls',namespace='social')),
-
-
+    path('', include('social_django.urls', namespace='social')),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [path('debug/', include(debug_toolbar.urls))]
-
