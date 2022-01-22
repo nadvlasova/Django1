@@ -136,6 +136,8 @@ window.onload = function () {
 
     })
 
+}
+window.onload = function () {
     $('.basket_list').on('click', 'input[type="number"]', function () {
         let t_href = event.target
         $.ajax(
@@ -160,7 +162,6 @@ window.onload = function () {
             });
         event.preventDefault()
     })
-
 }
 
 // // $(document).on('change', '.order_form select', function () {
