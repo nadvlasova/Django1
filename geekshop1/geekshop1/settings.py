@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x-e%#0#is+7^6#pbj%%e546er0p6qzt-ielp23q2xe$#!y%y*7'
+SECRET_KEY = ''
 
 from dotenv import load_dotenv
 
@@ -195,8 +195,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.vk.VKOAuth2',
 )
-# id = 8028236
-# key = 2JIguhTTGfmshWKfjuq6
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
